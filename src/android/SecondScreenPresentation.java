@@ -188,7 +188,7 @@ public class SecondScreenPresentation extends Presentation {
 			getOuterContext().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					getWebView().loadData(data, "text/html", "UTF-8");
+					getWebView().loadDataWithBaseURL(null, data, "text/html", "UTF-8", null);
 				}
 			});
 		}
