@@ -150,7 +150,12 @@ public class SecondScreenPresentation extends Presentation {
 			loadUrl(getDisplayUrl());
 		}
 		else {
-			loadUrl(session.getUrl());
+			if (!session.getData().isEmpty()) {
+				loadData(session.getData());
+			} else {
+				loadUrl(session.getUrl());
+			}
+		
 		}
 	}
 	
@@ -170,6 +175,20 @@ public class SecondScreenPresentation extends Presentation {
 				@Override
 				public void run() {
 					getWebView().loadUrl(url);
+				}
+			});
+		}
+	}
+	
+		/**
+	 * @param data the HTML data of the page to load
+	 */
+	public void loadData(final String data) {
+		if (getDisplay() != null) {
+			getOuterContext().runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					getWebView().loadData(data, "text/html", "UTF-8");
 				}
 			});
 		}
