@@ -1,0 +1,14 @@
+{
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-presentation",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "description": "Cordova Presentation API",
+  "license": "MIT",
+  "name": "cordova-plugin-presentation",
+  "version": "1.0.0"
+}
