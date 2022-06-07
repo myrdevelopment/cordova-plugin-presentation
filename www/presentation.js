@@ -71,6 +71,12 @@ get: function () {
 }
 });
 
+Object.defineProperty(NavigatorPresentation.prototype,"requestSessionWithData",{
+get: function () {
+  return navigatorPresentationRequestSessionWithData;
+}
+});
+
 Object.defineProperty(NavigatorPresentation.prototype, "onavailablechange", {
   get: function () {
     return onavailablechange;
@@ -138,6 +144,42 @@ var navigatorPresentationRequestSession = function(url) {
 
     };
     exec(successCallback, errorCallback, "Presentation", "requestSession", [ makeAbs(url) ]);
+    return new PresentationSession(delSession);
+};
+
+var navigatorPresentationRequestSessionWithData = function(data) {
+    var delSession = {
+        _id:"",
+        state: DISCONNECTED,
+        onstatechange: function(){},
+        onmessage: function(){}
+    };
+    delSession.postMessage = presentationSessionPostMessage(delSession);
+    delSession.close = presentationSessionClose(delSession);
+
+    var successCallback = function(result){
+      // result == { id: String, eventType: String, value: String }
+      delSession._id = result.id;
+      switch(result.eventType) {
+        case "onstatechange":
+          delSession.state=result.value;
+               if (typeof delSession.onstatechange == "function") {
+               delSession.onstatechange(result.value);
+               }
+          break;
+        case "onmessage":
+               if (typeof delSession.onmessage == "function") {
+          delSession.onmessage(result.value);
+               }
+          break;
+        default:
+          break;
+      }
+    };
+    var errorCallback = function(){
+
+    };
+    exec(successCallback, errorCallback, "Presentation", "requestSessionWithData", [ data ]);
     return new PresentationSession(delSession);
 };
 
