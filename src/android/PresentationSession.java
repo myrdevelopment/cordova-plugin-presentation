@@ -34,6 +34,7 @@ public class PresentationSession {
 	public static String CONNECTED = "connected";
 	private String id;
 	private String url;
+	private String data;
 	private Activity activity;
 	private CallbackContext callbackContext;
 	private String state;
@@ -45,13 +46,15 @@ public class PresentationSession {
 	 * @param url the URL of the presenting page passed by calling <code>navigator.presentation.requestSession(url)</code>
 	 * @param callbackContext The Cordova {@link CallbackContext} associated with the <code>navigator.presentation.requestSession(url)</code> call
 	 */
-	public PresentationSession(Activity activity, String url, CallbackContext callbackContext) {
+	public PresentationSession(Activity activity, String url, String data, CallbackContext callbackContext) {
 		this.id = new BigInteger(130, new SecureRandom()).toString(32);
 		this.url = url;
+		this.data = data;
 		this.activity = activity;
 		this.callbackContext = callbackContext;
 		this.state = DISCONNECTED;
 	}
+
 	
 	/**
 	 * @return the parent activity
@@ -72,6 +75,13 @@ public class PresentationSession {
 	 */
 	public String getUrl() {
 		return url;
+	}
+	
+	/**
+	* @return HTML data
+	*/
+	public String getData() {
+		return data;
 	}
 	
 	/**
