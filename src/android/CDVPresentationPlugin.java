@@ -81,6 +81,9 @@ public class CDVPresentationPlugin extends CordovaPlugin implements DisplayManag
 		} else if (action.equals("requestSession")) {
 			LOG.d(LOG_TAG, "requestSession");
 			return requestSession(args,callbackContext);
+		} else if (action.equals("requestSessionWithData")) {
+			LOG.d(LOG_TAG, "requestSessionWithData");
+			return requestSessionWithData(args,callbackContext);
 		} else if (action.equals("presentationSessionPostMessage")) {
 			LOG.d(LOG_TAG, "presentationSessionPostMessage");
 			return presentationSessionPostMessage(args,callbackContext);
@@ -137,7 +140,24 @@ public class CDVPresentationPlugin extends CordovaPlugin implements DisplayManag
 	 */
 	private boolean requestSession(JSONArray args, CallbackContext callbackContext) throws JSONException{
 		String url = args.getString(0);
-		PresentationSession session = new PresentationSession(getActivity(), url, callbackContext);
+		PresentationSession session = new PresentationSession(getActivity(), url, "", callbackContext);
+		showDisplaySelectionDialog(session);
+		sendSessionResult(session, null, null);
+		return true;
+	}
+	
+		/**
+	 * This method will be called when {@code navigator.presentation.requestSession(url)} is called in the controlling page. A Display selection dialog will be shown to the user to pick a display.
+	 * An initial Session will be send back to the presenting page. 
+	 * 
+	 * @param args a {@link JSONArray} with one argument args[0]. args[0] contains the HTML Data of the presenting page to open on the second screen
+	 * @param callbackContext the Cordova {@link CallbackContext} associated with this call
+	 * @return
+	 * @throws JSONException
+	 */
+	private boolean requestSessionWithData(JSONArray args, CallbackContext callbackContext) throws JSONException{
+		String data = args.getString(0);
+		PresentationSession session = new PresentationSession(getActivity(), "", data, callbackContext);
 		showDisplaySelectionDialog(session);
 		sendSessionResult(session, null, null);
 		return true;
