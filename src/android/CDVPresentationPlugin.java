@@ -321,6 +321,10 @@ public class CDVPresentationPlugin extends CordovaPlugin implements DisplayManag
 			getSessions().put(session.getId(), session);
 			return;
 		}
+		if (size == 0) {
+			session.setState(PresentationSession.DISCONNECTED);
+			return;
+		}
 		
 		builder.setTitle("Select Presentation Display").setItems(items,
 				new DialogInterface.OnClickListener() {
